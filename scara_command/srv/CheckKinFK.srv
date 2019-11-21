@@ -1,0 +1,14 @@
+---
+float32 state_x
+float32 state_y
+float32 state_z
+float32 state_phi
+float32 state_theta
+float32 state_psi
+float32 fk_x
+float32 fk_y
+float32 fk_z
+float32 fk_phi
+float32 fk_theta
+float32 fk_psi
+bool correct

@@ -1,0 +1,8 @@
+---
+float32 state_q1
+float32 state_q2
+float32 state_q3
+float32 ik_q1
+float32 ik_q2
+float32 ik_q3
+bool correct
