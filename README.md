@@ -85,7 +85,7 @@ To control joint 3 with joints_controller server:
 
 To give a reference position to the PD controller (JOINT_NAME = joint3) (NUMBER < 0):
 
-`rosservice call set_joint_ref JOINT_NAME NUMBER`  
+`rosservice call set_joint_ref joint3 NUMBER`
 
 One should be able to see the joint 3 moves to the desired position.
 
