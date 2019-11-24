@@ -1,3 +1,4 @@
-float32 ref
+string joint_name
+float64 ref
 ---
 bool success
