@@ -19,7 +19,7 @@ Build Instruction
 1. Clone this repository under **catkin_ws/src/**
 2. Compile under **catkin_ws**: `catkin_make`
 3. Go to path: **catkin_ws/src/scara/scara_command/src/**
-4. Give py files permission: `chmod +x scara_connector.py scara_FK_server.py scara_IK_server.py joint3_controller.py ` .
+4. Give py files permission: `chmod +x scara_connector.py scara_FK_server.py scara_IK_server.py joints_controller.py ` .
 
 ## Viewing and Jogging the Robot
 
@@ -79,13 +79,13 @@ Generate scara 2 in gazebo:
 
 This time only joint 3 can be controlled and the available range for joint 3 is from 0 to 0.3 meters.
 
-To control joint 3 with joint3_controller server:
+To control joint 3 with joints_controller server:
 
-`rosrun scara_command joint3_controller.py`
+`rosrun scara_command joints_controller.py`
 
-To give a reference position to the PD controller:
+To give a reference position to the PD controller (JOINT_NAME = joint3) (NUMBER < 0):
 
-`rosservice call set_joint3_ref d3`  
+`rosservice call set_joint_ref JOINT_NAME NUMBER`  
 
 One should be able to see the joint 3 moves to the desired position.
 
