@@ -51,6 +51,8 @@ The use these rodes, run them by
 
 `roscore`
 
+`rosrun scara_command  get_homogeneous.py`
+
 `rosrun scara_command  scara_FK_server.py`
 
 `rosrun scara_command  scara_IK_server.py`
@@ -81,11 +83,11 @@ This time only joint 3 can be controlled and the available range for joint 3 is 
 
 To control joint 3 with joint3_controller server:
 
-`rosrun scara_command joint3_controller.py`
+`rosrun scara_command joints_controller.py`
 
 To give a reference position to the PD controller:
 
-`rosservice call set_joint3_ref d3`  
+`rosservice call set_joint_ref '{joint_name: joint3, ref: 0.2}'`  
 
 One should be able to see the joint 3 moves to the desired position.
 

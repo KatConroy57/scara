@@ -14,10 +14,12 @@ def handle_pd_controller(req):
     rospy.wait_for_service('gazebo/get_joint_properties')
     try:
         joints_properties = rospy.ServiceProxy('gazebo/get_joint_properties', GetJointProperties)
-	joint_properties = joints_properties(req.joint_name)
-	q = joint_properties.position[0]
+        joint_properties = joints_properties(req.joint_name)
+        q = joint_properties.position[0]
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
+    except IndexError, e:
+        print "%s"%e
      
     # Publish once with gazebo PID controller
     if req.joint_name == 'joint1':

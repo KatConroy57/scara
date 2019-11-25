@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 from scara_command.srv import ScaraHomoMatrix, ScaraHomoMatrixResponse
-from std_msgs.msg import MultiArrayDimension, Float32MultiArray
 import numpy
+from helper import np2ma
+
 import rospy
+
 
 ## Assuming that the input is q1 q2 q3 the output should be x y z phi theta psi
 def homogeneous_A(a1, alph1, d1, theta1):
@@ -12,21 +14,6 @@ def homogeneous_A(a1, alph1, d1, theta1):
                       [0, numpy.sin(alph1), numpy.cos(alph1), d1],
                       [0, 0, 0, 1]])
     return A
-
-
-# Convert numpy array to float32multiarray
-def np2ma(arr):
-    ma = Float32MultiArray()
-
-    content = []
-    for row in arr:
-        content.extend(row)
-    ma.data = content
-
-    ma.layout.dim = [MultiArrayDimension(label="row", size=len(arr)),\
-                     MultiArrayDimension(label="column", size=len(arr[0]))]
-
-    return ma
 
 
 def handle_homogeneous_matrix(req):

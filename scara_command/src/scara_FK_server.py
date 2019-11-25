@@ -3,25 +3,9 @@
 from scara_command.srv import ScaraKinFK, ScaraKinFKResponse, ScaraHomoMatrix
 from math import atan2, sqrt, pow
 import numpy
+from helper import ma2np
+
 import rospy
-
-
-# Convert float32multiarray to numpy array 
-def ma2np(ma):
-    arr_list = []
-    arr_row = []
-    count = 0
-
-    for element in ma.data:
-        arr_row.extend([element])
-        count += 1
-        if count == ma.layout.dim[1].size:
-            arr_list.append(arr_row)
-            arr_row = []
-            count = 0
-
-    arr = numpy.asarray(arr_list)
-    return arr
 
 
 def handle_forward_kinematics(req):

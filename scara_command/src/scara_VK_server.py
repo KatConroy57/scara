@@ -7,6 +7,9 @@ import rospy
 
 # Handle joints velocity -> cartesian velocity
 def handle_velocity_forward_kinematics(req):
+    q1 = req.q1
+    q2 = req.q2
+    q3 = req.q3
     q1_dot = req.q1_dot
     q2_dot = req.q2_dot
     q3_dot = req.q3_dot
@@ -23,6 +26,9 @@ def handle_velocity_forward_kinematics(req):
 
 # Handle cartesian velocity -> joints velocity
 def handle_velocity_inverse_kinematics(req):
+    q1 = req.q1
+    q2 = req.q2
+    q3 = req.q3
     Vx = req.Vx
     Vy = req.Vy
     Vz = req.Vz
