@@ -1,40 +1,41 @@
 #!/usr/bin/env python
 
-from scara_command.srv import ScaraKinFK, ScaraKinFKResponse
+from scara_command.srv import ScaraKinFK, ScaraKinFKResponse, ScaraHomoMatrix
 from math import atan2, sqrt, pow
 import numpy
 import rospy
 
 
-## Assuming that the input is q1 q2 q3 the output should be x y z phi theta psi
-def homogeneous_A(a1, alph1, d1, theta1):
-    A1 = numpy.array([[numpy.cos(theta1), (numpy.sin(theta1)*-1) * numpy.cos(alph1), numpy.sin(theta1) * numpy.sin(alph1), a1 * numpy.cos(theta1)],
-                      [numpy.sin(theta1), numpy.cos(theta1) * numpy.cos(alph1), (numpy.cos(theta1)*-1) * numpy.sin(alph1), a1 * numpy.sin(theta1)],
-                      [0, numpy.sin(alph1), numpy.cos(alph1), d1],
-                      [0, 0, 0, 1]])
-    return A1
+# Convert float32multiarray to numpy array 
+def ma2np(ma):
+    arr_list = []
+    arr_row = []
+    count = 0
+
+    for element in ma.data:
+        arr_row.extend([element])
+        count += 1
+        if count == ma.layout.dim[1].size:
+            arr_list.append(arr_row)
+            arr_row = []
+            count = 0
+
+    arr = numpy.asarray(arr_list)
+    return arr
 
 
 def handle_forward_kinematics(req):
-    ##_---------------------- DH Parameters----------------------------------------
-    a1 = .425
-    alph1 = 0
-    d1 = .55
-    theta1 = req.q1
-
-    a2 = .345
-    alph2 = 3.14
-    d2 = 0
-    theta2 = req.q2
-
-    a3 = 0
-    alph3 = 0
-    d3 = req.q3  + .11
-    theta3 = 0
-
-    A1 = homogeneous_A(a1, alph1, d1, theta1)
-    A2 = homogeneous_A(a2, alph2, d2, theta2)
-    A3 = homogeneous_A(a3, alph3, d3, theta3)
+    # Get Homogeneous Matrix
+    rospy.wait_for_service('homogeneous_matrix')
+    try:
+        get_homo_matrix = rospy.ServiceProxy('homogeneous_matrix', ScaraHomoMatrix)
+        homo_matrix = get_homo_matrix(req.q1, req.q2, req.q3)
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
+    
+    A1 = ma2np(homo_matrix.A1)
+    A2 = ma2np(homo_matrix.A2)
+    A3 = ma2np(homo_matrix.A3)
 
     transform = numpy.matmul(numpy.matmul(A1, A2), A3)
 

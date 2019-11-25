@@ -11,8 +11,8 @@ def handle_velocity_forward_kinematics(req):
     q2_dot = req.q2_dot
     q3_dot = req.q3_dot
 
-    Vx = 0
-    Vy = 0
+    Vx = 1
+    Vy = 1
     Vz = 0
     Wx = 0
     Wy = 0

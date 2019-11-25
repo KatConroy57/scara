@@ -63,8 +63,7 @@ add_service_files(
   SetJointRef.srv
   ScaraVelFK.srv
   ScaraVelIK.srv
-#   Service1.srv
-#   Service2.srv
+  ScaraHomoMatrix.srv
 )
 
 ## Generate actions in the 'action' folder
