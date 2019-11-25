@@ -11,7 +11,7 @@ def handle_velocity_forward_kinematics(req):
     q2_dot = req.q2_dot
     q3_dot = req.q3_dot
     qdot = np.array([[q1_dot],[q2_dot],[q3_dot]])
-    A1 = functioncall()
+    A1 = functioncal()
     A2 = functioncall()
     A3 = functioncall()
     z0 = np.array([[0],[0],[1]])
