@@ -59,10 +59,13 @@
   <build_depend>cmake_modules</build_depend>
   <exec_depend>cmake_modules</exec_depend> 
 
+  <!-- numpy -->
+  <build_depend>python-numpy</build_depend>
+  <exec_depend>python-numpy</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
   </export>
+
 </package>

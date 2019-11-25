@@ -19,7 +19,7 @@ Build Instruction
 1. Clone this repository under **catkin_ws/src/**
 2. Compile under **catkin_ws**: `catkin_make`
 3. Go to path: **catkin_ws/src/scara/scara_command/src/**
-4. Give py files permission: `chmod +x scara_connector.py scara_FK_server.py scara_IK_server.py joints_controller.py ` .
+4. Give py files permission: `chmod +x scara_connector.py scara_FK_server.py scara_IK_server.py joint3_controller.py ` .
 
 ## Viewing and Jogging the Robot
 
@@ -40,7 +40,6 @@ Try to control different joints by:
 `rostopic pub -1 /scara/joint3_position_controller/command std_msgs/Float64 "data: 0.3"`
 
 
-
 ## Running
 
 #### Project 1
@@ -50,6 +49,8 @@ Project 1 implements three nodes including forward kinematic, inverse kinematic 
 The use these rodes, run them by
 
 `roscore`
+
+`rosrun scara_command  get_homogeneous.py`
 
 `rosrun scara_command  scara_FK_server.py`
 
@@ -79,13 +80,13 @@ Generate scara 2 in gazebo:
 
 This time only joint 3 can be controlled and the available range for joint 3 is from 0 to 0.3 meters.
 
-To control joint 3 with joints_controller server:
+To control joint 3 with joint3_controller server:
 
 `rosrun scara_command joints_controller.py`
 
-To give a reference position to the PD controller (JOINT_NAME = joint3) (NUMBER < 0):
+To give a reference position to the PD controller:
 
-`rosservice call set_joint_ref joint3 NUMBER`
+`rosservice call set_joint_ref '{joint_name: joint3, ref: 0.2}'`  
 
 One should be able to see the joint 3 moves to the desired position.
 
