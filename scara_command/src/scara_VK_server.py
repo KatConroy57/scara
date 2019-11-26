@@ -1,9 +1,25 @@
 #!/usr/bin/env python
 
-from scara_command.srv import ScaraVelFK, ScaraVelFKResponse,\
-                              ScaraVelIK, ScaraVelIKResponse
+from scara_command.srv import ScaraVelFK, ScaraVelFKResponse, ScaraHomoMatrix, ScaraHomoMatrixResponse, ScaraVelIK, ScaraVelIKResponse
 import rospy
+import numpy as np
+import rosservice
 
+def acquire_joints():
+    rospy.wait_for_service('gazebo/get_joint_properties')
+    try:
+        joints_properties = rospy.ServiceProxy('gazebo/get_joint_properties', GetJointProperties)
+        joint1_properties = joints_properties("joint1")
+        q1 = joint1_properties.position[0]
+        joint2_properties = joints_properties("joint2")
+        q2 = joint2_properties.position[0]
+        joint3_properties = joints_properties("joint3")
+        q3 = joint3_properties.position[0]
+
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
+
+    return q1, q2, q3
 
 # Handle joints velocity -> cartesian velocity
 def handle_velocity_forward_kinematics(req):
@@ -11,9 +27,20 @@ def handle_velocity_forward_kinematics(req):
     q2_dot = req.q2_dot
     q3_dot = req.q3_dot
     qdot = np.array([[q1_dot],[q2_dot],[q3_dot]])
-    A1 = functioncal()
-    A2 = functioncall()
-    A3 = functioncall()
+    [q1,q2,q3] = acquire_joints()
+
+    #To find A1 A2 A3
+    rospy.wait_for_service('homogeneous_matrix')
+    try:
+        findA = rospy.ServiceProxy('homogeneous_matrix',ScaraHomoMatrix)
+        findAs = findA(q1,q2,q3)
+        A1 = findAs.A1
+        A2 = findAs.A2
+        A3 = findAs.A3
+
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
+
     z0 = np.array([[0],[0],[1]])
     z1 = np.array([[0],[0],[1]])
     z2 = np.array([[0],[0],[-1]])
@@ -21,7 +48,7 @@ def handle_velocity_forward_kinematics(req):
     np.delete(o3,3,0)
     o1 = np.dot(A1, np.array([[0], [0], [0], [1]]))
     np.delete(o1, 3, 0)
-    Jv = np.column_stack((np.cross(z0,(o3-o0)),np.cross(z1,(o3-o1)),[0,0,-1]))
+    Jv = np.column_stack((np.cross(z0,o3),np.cross(z1,(o3-o1)),[0,0,-1]))
     Jw = np.column_stack((z0,z1,[0,0,0]))
     J = np.vstack((Jv,Jw))
 
@@ -45,9 +72,20 @@ def handle_velocity_inverse_kinematics(req):
     Wy = req.Wy
     Wz = req.Wz
     V = np.array([[Vx],[Vy],[Vz],[Wx],[Wy],[Wz]])
-    A1 = functioncall()
-    A2 = functioncall()
-    A3 = functioncall()
+
+    # To find A1 A2 A3
+    rospy.wait_for_service('homogeneous_matrix')
+    try:
+        findA = rospy.ServiceProxy('homogeneous_matrix', ScaraHomoMatrix)
+        findAs = findA(q1, q2, q3)
+        A1 = findAs.A1
+        A2 = findAs.A2
+        A3 = findAs.A3
+
+    except rospy.ServiceException, e:
+        print
+        "Service call failed: %s" % e
+
     z0 = np.array([[0], [0], [1]])
     z1 = np.array([[0], [0], [1]])
     z2 = np.array([[0], [0], [-1]])
@@ -55,11 +93,11 @@ def handle_velocity_inverse_kinematics(req):
     np.delete(o3, 3, 0)
     o1 = np.dot(A1, np.array([[0], [0], [0], [1]]))
     np.delete(o1, 3, 0)
-    Jv = np.column_stack((np.cross(z0, (o3 - o0)), np.cross(z1, (o3 - o1)), [0, 0, -1]))
+    Jv = np.column_stack((np.cross(z0, (o3)), np.cross(z1, (o3 - o1)), [0, 0, -1]))
     Jw = np.column_stack((z0, z1, [0, 0, 0]))
     J = np.vstack((Jv, Jw))
     JxJt = np.dot(J,J.T)
-    Jpinv = np.dot(np.linalg.inv(linalgJxJt),J.T)
+    Jpinv = np.dot(np.linalg.inv(JxJt),J.T)
     q = np.dot(V,Jpinv)
     q1_dot = q[0,0]
     q2_dot = q[1,0]
