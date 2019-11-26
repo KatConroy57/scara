@@ -29,7 +29,7 @@ def handle_velocity_forward_kinematics(req):
     qdot = np.array([[q1_dot],[q2_dot],[q3_dot]])
     [q1,q2,q3] = acquire_joints()
 
-    #To find A1 A2 A3
+    #Now to find A1 A2 A3
     rospy.wait_for_service('homogeneous_matrix')
     try:
         findA = rospy.ServiceProxy('homogeneous_matrix',ScaraHomoMatrix)
