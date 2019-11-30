@@ -21,7 +21,7 @@ def acquire_joints():
 
     return q1, q2, q3
 
-# Handle joints velocity -> cartesian velocity
+# Handle joints velocity -> cartesian velocity..
 def handle_velocity_forward_kinematics(req):
     q1_dot = req.q1_dot
     q2_dot = req.q2_dot
