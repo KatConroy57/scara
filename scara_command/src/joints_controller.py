@@ -27,14 +27,14 @@ def handle_pd_controller(req):
         return SetJointRefResponse(True)
     elif req.joint_name == 'joint2':
         pub2.publish(req.ref)
-	return SetJointRefResponse(True)
+        return SetJointRefResponse(True)
     elif req.joint_name == 'joint3':
         pub3.publish(req.ref)
-	return SetJointRefResponse(True)
+        return SetJointRefResponse(True)
 
     else:
         rospy.loginfo("Input Joint Name Invalid")
-    	return SetJointRefResponse(False)
+        return SetJointRefResponse(False)
 
 
 # Connector services
