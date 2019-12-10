@@ -75,30 +75,6 @@ def handle_check_fk(req):
     print "Check FK success: ", correct
     return CheckKinFKResponse(gaze_x, gaze_y, gaze_z, gaze_phi, gaze_theta, gaze_psi, 
                             x, y, z, phi, theta, psi, correct)
-
-
-# Just to compute ik
-def handle_compute_ik(req):
-    rospy.wait_for_service('inv_kin')
-    try:
-        inv_kinematic = rospy.ServiceProxy('inv_kin', ScaraKinIK)
-	res = inv_kinematic(req.x, req.y, req.z, req.phi, req.theta, req.psi)
-        print "IK response: ", res.q1,res.q2,res.q3
-        return res
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
-    
-
-# Just to compute fk
-def handle_compute_fk(req):
-    rospy.wait_for_service('for_kin')
-    try:
-        for_kinematic = rospy.ServiceProxy('for_kin', ScaraKinFK)
-	res = for_kinematic(req.q1, req.q2, req.q3)
-	print "FK response: ", res.x,res.y,res.z,res.phi,res.theta,res.psi
-        return res
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
     
 
 # Connector services
@@ -107,8 +83,6 @@ def scara_connector():
 
     s1 = rospy.Service('check_ik', CheckKinIK, handle_check_ik)
     s2 = rospy.Service('check_fk', CheckKinFK, handle_check_fk)
-    s3 = rospy.Service('compute_ik', ScaraKinIK, handle_compute_ik)
-    s4 = rospy.Service('compute_fk', ScaraKinFK, handle_compute_fk)
 
     rospy.spin()
 

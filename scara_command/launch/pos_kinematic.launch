@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- load homogeneous calculation -->
+  <node name="homogeneous_matrix_server" pkg="scara_command" type="get_homogeneous.py"/>
+
+  <!-- load kinematics -->
+  <node name="for_kin" pkg="scara_command" type="scara_FK_server.py"/>
+  <node name="inv_kin" pkg="scara_command" type="scara_IK_server.py"/>
+
+  <!-- load connector -->
+  <node name="kin_connector" pkg="scara_command" type="scara_connector.py"/>
+  
+
+</launch>

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from scara_command.srv import SetJointRef, SetJointRefResponse
-from gazebo_msgs.srv import ApplyJointEffort, GetJointProperties
 from std_msgs.msg import Float32, Float64
 
 import rospy
@@ -10,17 +9,6 @@ import time
 
 # PD controller
 def handle_pd_controller(req):
-    # Acquire current position
-    rospy.wait_for_service('gazebo/get_joint_properties')
-    try:
-        joints_properties = rospy.ServiceProxy('gazebo/get_joint_properties', GetJointProperties)
-        joint_properties = joints_properties(req.joint_name)
-        q = joint_properties.position[0]
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
-    except IndexError, e:
-        print "%s"%e
-     
     # Publish once with gazebo PID controller
     if req.joint_name == 'joint1':
         pub1.publish(req.ref)
@@ -38,10 +26,10 @@ def handle_pd_controller(req):
 
 
 # Connector services
-def joint3_controller():
+def joints_pos_controller():
     rospy.init_node('joints_pos_controller')
 
-    s1 = rospy.Service('set_joint_ref', SetJointRef, handle_pd_controller)
+    s1 = rospy.Service('set_joint_pos_ref', SetJointRef, handle_pd_controller)
 
     global pub1, pub2, pub3
     pub1 = rospy.Publisher('/scara/joint1_position_controller/command', Float64, queue_size=1)
@@ -52,4 +40,4 @@ def joint3_controller():
 
 
 if __name__ == "__main__":
-    joint3_controller()
+    joints_pos_controller()

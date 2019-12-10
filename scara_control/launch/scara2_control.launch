@@ -8,6 +8,11 @@
 	output="screen" ns="/scara" args="joint_state_controller
             joint3_position_controller"/>
 
+  <!-- load velocity controllers -->
+  <node name="controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/scara" args="--stopped
+            joint3_velocity_controller"/>
+
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">
