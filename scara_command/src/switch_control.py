@@ -38,7 +38,7 @@ def handle_switch(req):
 
     
 def switch_control():
-    rospy.init_node('switch_controller')
+    rospy.init_node('switch_control_node')
     s = rospy.Service('switch_control', SwitchControl, handle_switch)
 
     rospy.spin()
