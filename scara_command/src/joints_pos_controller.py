@@ -26,7 +26,6 @@ def handle_joint_ref(req):
         return SetJointRefResponse(False)
 
 
-
 def handle_cartesian_ref(req):
     # Perform inverse kinematics
     rospy.wait_for_service('inv_kin')
