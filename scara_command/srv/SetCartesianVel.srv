@@ -1,0 +1,8 @@
+float32 Vx
+float32 Vy
+float32 Vz
+float32 Wx
+float32 Wy
+float32 Wz
+---
+bool success
