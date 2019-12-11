@@ -21,7 +21,7 @@ Build Instruction
 3. Go to path: **catkin_ws/src/scara/scara_command/src/**
 4. Give python files permission: `chmod +x get_homogeneous.py scara_connector.py scara_FK_server.py scara_IK_server.py joints_pos_controller.py joints_vel_controller.py scara_VK_server.py switch_control.py ` .
 
-## Launching the SCARA Robot
+## Launch the SCARA Robot
 
 To see the robot in rviz:
 
@@ -124,13 +124,9 @@ Repeat this process for all the three joints. After getting reasonable controlle
 
 ---
 
-`rosservice call set_joint_pos_ref '{joint_name: joint3, ref: 0.2}'` 
+The final goal of the this project is to combine inverse position and velocity kinematics with position and velocity controllers. In this way, when one gives the robot a Cartesian coordinate or a desired speed of the end of effector, the robot could figure out how to get there itself using inverse kinematics, which is usually what people would like the robots to do.
 
-`rosservice call set_joint_vel_ref '{joint_name: joint3, ref: 4}'` 
-
-
-
-To switch controller of all the three joints between position controllers and velocity controllers, one can use the server provided by `switch_control.py`. The parameter "p2v" represents changing from position controller to velocity controller and "v2p" plays a similar role.
+First, position controllers and velocity controllers are two different controllers, one can only use one of them for controlling one joint. To switch controller of all the three joints between position controllers and velocity controllers, one can use the server provided by `switch_control.py`. The parameter "p2v" represents changing from position controller to velocity controller and "v2p" plays a similar role.
 
 `rosrun scara_command switch_control.py` 
 
@@ -138,7 +134,23 @@ To switch controller of all the three joints between position controllers and ve
 
 `rosservice call switch_control 'v2p'` 
 
+After switching controllers, to use the services to set reference:
 
+`rosrun scara_command joints_pos_controller.py`
+
+`rosrun scara_command joints_vel_controller.py`
+
+With the use of two kinds of controllers, the robot could move following given joint velocity or position:
+
+`rosservice call set_joint_pos_ref 'joint_name' pos_ref` 
+
+`rosservice call set_joint_vel_ref 'joint_name' vel_ref` 
+
+Combined with inverse kinematics, it could also find its way given a desired world coordinates or desired Cartesian velocity.
+
+`rosservice call set_cartesian_pos_ref x y z` 
+
+`rosservice call set_cartesian_vel_ref Vx Vy Vz Wx Wy Wz` 
 
 ## Node graph (temp):
 
