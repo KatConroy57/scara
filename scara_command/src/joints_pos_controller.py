@@ -36,12 +36,15 @@ def handle_cartesian_ref(req):
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
-    # Apply joint effort using controller
-    pub1.publish(res.q1)
-    pub2.publish(res.q2)
-    pub3.publish(res.q3)
-
-    return SetCartesianPosResponse(True)
+    if res.success:
+        # Apply joint effort using controller
+        pub1.publish(res.q1)
+        pub2.publish(res.q2)
+        pub3.publish(res.q3)
+        return SetCartesianPosResponse(True)
+    
+    print "IK failed, the coordinate provided may be invalid."
+    return SetCartesianPosResponse(False)
 
 
 # Connector services
