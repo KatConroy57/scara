@@ -56,7 +56,7 @@ def handle_IK(req):
 
 
 def scara_IK_server():
-    rospy.init_node('scara_IK_server')
+    rospy.init_node('for_inv_server')
     s = rospy.Service('inv_kin', ScaraKinIK, handle_IK)
     
     rospy.spin()
