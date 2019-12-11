@@ -1,8 +1,6 @@
 # SCARA Final Project
 
-**Author**:  WPI RBE 500 2019 Fall Team 8
-
-​                 Katharine Conroy, Thejus Jose, Zhuoyun Zhong
+**Author**:  WPI RBE 500 2019 Fall Team 8: [Katharine Conroy](https://github.com/KatConroy57), [Thejus Jose](https://github.com/thejose5), [Zhuoyun Zhong](https://github.com/joeyzhong90595).
 
 ![node_graph](demo/robot.png)
 
