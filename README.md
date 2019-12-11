@@ -152,6 +152,6 @@ Combined with inverse kinematics, it could also find its way given a desired wor
 
 `rosservice call set_cartesian_vel_ref Vx Vy Vz Wx Wy Wz` 
 
-## Node graph (temp):
+## Node graph:
 
-![node_graph_temp](demo/node_graph_temp.png)
+![node_graph](demo/node_graph.png)
