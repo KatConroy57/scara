@@ -146,7 +146,7 @@ With the use of two kinds of controllers, the robot could move following given j
 
 `rosservice call set_joint_vel_ref 'joint_name' vel_ref` 
 
-Combined with inverse kinematics, it could also move given a desired world coordinates or desired Cartesian velocity.
+Combined with inverse kinematics, it could also find its way given a desired world coordinates or desired Cartesian velocity.
 
 `rosservice call set_cartesian_pos_ref x y z` 
 
