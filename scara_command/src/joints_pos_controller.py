@@ -6,7 +6,6 @@ from scara_command.srv import SetJointRef, SetJointRefResponse,\
 from std_msgs.msg import Float32, Float64
 
 import rospy
-import time
 
 
 def handle_joint_ref(req):

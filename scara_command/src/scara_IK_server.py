@@ -21,9 +21,10 @@ def handle_IK(req):
     # Perform IK
     try:
         # calculate joint 3
-        q3_p = a1 - a4 - z
-        if 0 < q3_p < 3:
-            q3 = q3_p
+        q3 = a1 - a4 - z
+        if not (0 <= q3 <= 0.3):
+            print "IK failed, coordinate z is not reachable."
+            return ScaraKinIKResponse(False, 0, 0, 0)
         # calculate joint 2
         q2 = acos(round(-(a2**2 + a3**2 - x**2 - y**2) / (2*a2*a3),3))
         q2_1 = q2
@@ -48,14 +49,14 @@ def handle_IK(req):
             q1 = q1_1
             q2 = q2_1
     except ValueError, e:
-        print "IK failed, the coordinate provided may be invalid: %s"%e
+        print "IK failed, the coordinate x, y provided may be invalid: %s"%e
         return ScaraKinIKResponse(False, 0, 0, 0)
 
     return ScaraKinIKResponse(True, q1, q2, q3)
 
 
 def scara_IK_server():
-    rospy.init_node('scara_IK_server')
+    rospy.init_node('for_inv_server')
     s = rospy.Service('inv_kin', ScaraKinIK, handle_IK)
     
     rospy.spin()
