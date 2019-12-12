@@ -92,7 +92,7 @@ Project 3 is to first implement a node for forward and inverse velocity kinemati
 
 The node provides inverse velocity kinematic and forward velocity kinematic calculation.
 
-`rosservice call vel_inv_kin x, y, z, q1, q2, q3, Vx, Vy, Vz, Wx, Wy, Wz` 
+`rosservice call vel_inv_kin q1, q2, q3, x, y, z, Vx, Vy, Vz, Wx, Wy, Wz` 
 
 `rosservice call vel_for_kin q1, q2, q3, q1_dot, q2_dot, q3_dot `
 
