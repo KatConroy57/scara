@@ -94,7 +94,7 @@ def handle_velocity_inverse_kinematics(req):
     Jw = np.column_stack((z0, z1, [0, 0, 0]))
     J = np.vstack((Jv, Jw))
     print Jv
-    #JxJt = np.dot(J,J.T)
+    #JxJt = np.dot(J,J.T).
     #Jpinv = np.dot(np.linalg.inv(JxJt),J.T)
     Jinv = np.linalg.inv(Jv)
     q = np.dot(Jinv,V)
