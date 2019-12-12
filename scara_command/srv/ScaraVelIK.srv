@@ -8,6 +8,7 @@ float32 Wx
 float32 Wy
 float32 Wz
 ---
+bool success
 float32 q1_dot
 float32 q2_dot
 float32 q3_dot

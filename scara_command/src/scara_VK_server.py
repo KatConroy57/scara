@@ -32,10 +32,11 @@ def handle_velocity_forward_kinematics(req):
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
+    A13 = np.dot(A1,np.dot(A2,A3))
     z0 = np.array([[0],[0],[1]])
     z1 = np.array([[0],[0],[1]])
     z2 = np.array([[0],[0],[-1]])
-    o3 = np.dot(A3,np.array([[0],[0],[0],[1]]))
+    o3 = np.dot(A13,np.array([[0],[0],[0],[1]]))
     o3 = np.delete(o3,3,0)
     print o3
     o1 = np.dot(A1, np.array([[0], [0], [0], [1]]))
@@ -105,7 +106,7 @@ def handle_velocity_inverse_kinematics(req):
 
 
     print "Completed Inverse Kin"
-    return ScaraVelIKResponse(q1_dot, q2_dot, q3_dot)
+    return ScaraVelIKResponse(True, q1_dot, q2_dot, q3_dot)
 
 
 # Server
