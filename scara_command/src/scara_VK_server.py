@@ -31,28 +31,29 @@ def handle_velocity_forward_kinematics(req):
 
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
-
-    A13 = np.dot(A1,np.dot(A2,A3))
+    
     z0 = np.array([[0],[0],[1]])
     z1 = np.array([[0],[0],[1]])
     z2 = np.array([[0],[0],[-1]])
+
+    A13 = np.dot(A1,np.dot(A2,A3))
     o3 = np.dot(A13,np.array([[0],[0],[0],[1]]))
-    o3 = np.delete(o3,3,0)
-    print o3
+    o3 = np.delete(o3, 3,0)
     o1 = np.dot(A1, np.array([[0], [0], [0], [1]]))
-    o1 = np.delete(o1, 3, 0)
-    print o1
-    Jv = np.column_stack((np.cross(z0.T,o3.T).T,np.cross(z1.T,(o3.T-o1.T)).T,[[0],[0],[-1]]))
-    Jw = np.column_stack((z0,z1,[0,0,0]))
+    o1 = np.delete(o1, 3,0)
+    
+    Jv = np.column_stack((np.cross(z0.T,o3.T).T, np.cross(z1.T,(o3.T-o1.T)).T, z2))
+    Jw = np.column_stack((z0, z1, [0,0,0]))
     J = np.vstack((Jv,Jw))
 
     V = np.dot(J,qdot)
-    Vx = V[0,0]
-    Vy = V[1,0]
-    Vz = V[2,0]
-    Wx = V[3,0]
-    Wy = V[4,0]
-    Wz = V[5,0]
+    print V
+    Vx = V[0]
+    Vy = V[1]
+    Vz = V[2]
+    Wx = V[3]
+    Wy = V[4]
+    Wz = V[5]
 
     print "Completed Forward Kin"
     return ScaraVelFKResponse(Vx, Vy, Vz, Wx, Wy, Wz)
@@ -64,9 +65,11 @@ def handle_velocity_inverse_kinematics(req):
     Vx = req.Vx
     Vy = req.Vy
     Vz = req.Vz
+    # Not using W
     Wx = req.Wx
     Wy = req.Wy
     Wz = req.Wz
+    
     V = np.array([[Vx],[Vy],[Vz]])
     q1 = req.q1
     q2 = req.q2
@@ -83,6 +86,7 @@ def handle_velocity_inverse_kinematics(req):
 
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+
     A13 = np.dot(A1,np.dot(A2,A3))
     z0 = np.array([[0], [0], [1]])
     z1 = np.array([[0], [0], [1]])
@@ -91,19 +95,18 @@ def handle_velocity_inverse_kinematics(req):
     o3 = np.delete(o3, 3, 0)
     o1 = np.dot(A1, np.array([[0], [0], [0], [1]]))
     o1 = np.delete(o1, 3, 0)
-    Jv = np.column_stack((np.cross(z0.T, (o3).T).T, np.cross(z1.T, (o3.T - o1.T)).T, [[0], [0], [-1]]))
-    Jw = np.column_stack((z0, z1, [0, 0, 0]))
-    J = np.vstack((Jv, Jw))
-    print Jv
+
+    Jv = np.column_stack((np.cross(z0.T, (o3).T).T, np.cross(z1.T, (o3.T - o1.T)).T, z2))
+    #Jw = np.column_stack((z0, z1, [0, 0, 0]))
+    #J = np.vstack((Jv, Jw))
     #JxJt = np.dot(J,J.T)..
     #Jpinv = np.dot(np.linalg.inv(JxJt),J.T)
     Jinv = np.linalg.inv(Jv)
-    q = np.dot(Jinv,V)
+    q = np.dot(Jinv, V)
     print q
-    q1_dot = q[0,0]
-    q2_dot = q[1,0]
-    q3_dot = q[2,0]
-
+    q1_dot = q[0]
+    q2_dot = q[1]
+    q3_dot = q[2]
 
     print "Completed Inverse Kin"
     return ScaraVelIKResponse(True, q1_dot, q2_dot, q3_dot)
