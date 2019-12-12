@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- load homogeneous calculation -->
+  <node name="homogeneous_matrix_server" pkg="scara_command" type="get_homogeneous.py"/>
+  
+  <!-- load connector -->
+  <node name="kin_connector" pkg="scara_command" type="scara_connector.py"/>
+  <!-- load position kinematics -->
+  <node name="for_kin_server" pkg="scara_command" type="scara_FK_server.py"/>
+  <node name="inv_kin_server" pkg="scara_command" type="scara_IK_server.py"/>
+
+  <!-- load velocity kinematics -->
+  <!-- node name="vel_kin_server" pkg="scara_command" type="scara_VK_server.py"/ -->
+
+  <!-- Load controller -->
+  <!-- node name="joints_pos_controller" pkg="scara_command" type="joints_pos_controller.py"/>
+  <node name="joints_vel_controller" pkg="scara_command" type="joints_vel_controller.py"/>
+  <node name="switch_control_server" pkg="scara_command" type="switch_control.py"/-->
+  
+</launch>

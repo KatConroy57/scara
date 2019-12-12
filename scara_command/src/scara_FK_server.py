@@ -37,7 +37,6 @@ def scara_FK_server():
     rospy.init_node('for_kin_server')
     s = rospy.Service('for_kin', ScaraKinFK, handle_forward_kinematics)
 
-    print "Ready to perform FK"
     rospy.spin()
 
 

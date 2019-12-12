@@ -61,9 +61,12 @@ add_service_files(
   ScaraKinFK.srv
   ScaraKinIK.srv
   SetJointRef.srv
+  SetCartesianVel.srv
+  SetCartesianPos.srv
   ScaraVelFK.srv
   ScaraVelIK.srv
   ScaraHomoMatrix.srv
+  SwitchControl.srv
 )
 
 ## Generate actions in the 'action' folder
