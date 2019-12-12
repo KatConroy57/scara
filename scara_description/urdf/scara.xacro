@@ -69,7 +69,7 @@
     <origin xyz = "0 0 0.05"/>
     <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
     <axis xyz = "0 0 1"/>
-    <dynamics damping="0.2" friction="0.5" />
+    <dynamics damping="0.2" friction="0.1" />
   </joint>
 
   <!-- link 1 -->
@@ -130,7 +130,7 @@
     <origin xyz = "0.425 0 0.05"/>
     <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
     <axis xyz = "0 0 1"/>
-    <dynamics damping="0.2" friction="0.5" />
+    <dynamics damping="0.2" friction="0.1" />
   </joint>
 
   <!-- link 2 -->

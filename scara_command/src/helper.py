@@ -5,7 +5,6 @@ import math
 # Import gazebo_msgs, std_msgs
 from std_msgs.msg import MultiArrayDimension, Float32MultiArray
 from gazebo_msgs.srv import GetJointProperties, GetLinkState
-from gazebo_msgs.srv import GetJointProperties, GetLinkState
 
 
 # Acquire gazebo joint variables

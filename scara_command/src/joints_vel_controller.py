@@ -78,6 +78,8 @@ def joints_vel_controller():
     pub2 = rospy.Publisher('/scara/joint2_velocity_controller/command', Float64, queue_size=1)
     pub3 = rospy.Publisher('/scara/joint3_velocity_controller/command', Float64, queue_size=1)
     
+    
+
     rospy.spin()
 
 
